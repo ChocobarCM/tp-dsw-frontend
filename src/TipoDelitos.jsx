@@ -9,9 +9,10 @@ export default function TipoDelitos() {
 
   // Configuración automática del Token JWT para rutas protegidas
   const getAuthConfig = () => {
-    const userGuardado = JSON.parse(localStorage.getItem("usuario") || "{}");
-    const token = localStorage.getItem("token") || userGuardado.token;
-    return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+    //COMENTADO PARA NO GUARDAR EL TOKEN
+    //const userGuardado = JSON.parse(localStorage.getItem("usuario") || "{}");
+    //const token = localStorage.getItem("token") || userGuardado.token;
+    //return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
   };
 
   const URL_API = "http://localhost:3000/api/tipoDelitos"; 

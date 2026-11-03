@@ -20,9 +20,11 @@ const Login = ({ setUsuario }) => {
 
             // Guardamos el usuario en el navegador convirtiéndolo a texto (JSON)
             localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
-            if (response.data.token) {
-                localStorage.setItem("token", response.data.token);
-            }
+            
+            //COMENTADO PARA NO GUARDAR EL TOKEN
+            //if (response.data.token) {
+            //   localStorage.setItem("token", response.data.token);
+            //}
             setUsuario(response.data.usuario);
             
         } catch (error) {

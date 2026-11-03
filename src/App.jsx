@@ -15,7 +15,8 @@ function App() {
 
   const cerrarSesion = () => {
     localStorage.removeItem("usuario");
-    localStorage.removeItem("token");
+    //COMENTADO PARA NO GUARDAR EL TOKEN
+    //localStorage.removeItem("token");
     setUsuario(null);
   };
 
