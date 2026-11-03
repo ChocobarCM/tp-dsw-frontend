@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Login from './login';
 import Zonas from './Zonas';
 import Oficiales from './Oficiales';
-import TipoDelitos from './tipoDelitos.jsx' ; 
+import TipoDelitos from './TipoDelitos.jsx' ; 
 
 function App() {
   const [usuario, setUsuario] = useState(() => {
@@ -56,7 +56,7 @@ function App() {
         <main className="contenido">
           <Routes>
             {/* Rutas protegidas por rol */}
-            <Route path="/zonas" element={usuario.rol === 'ADMIN' ? <Zonas /> : <Navigate to="/" />} />
+            <Route path="/zonas" element={usuario.rol === 'ADMIN' ? <Zonas usuario={usuario}/> : <Navigate to="/" />} />
             <Route path="/delitos" element={usuario.rol === 'ADMIN' ? <TipoDelitos /> : <Navigate to="/" />} />
             <Route path="/oficiales" element={usuario.rol === 'ADMIN' ? <Oficiales /> : <Navigate to="/" />} />
           </Routes>

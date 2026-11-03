@@ -2,8 +2,9 @@ import { useState, useEffect } from "react";
 import Axios from "axios";
 
 export default function Oficiales() {
-  const [dni, setDni] = useState('');
+  const [dni, setDni] = useState(0);
   const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
   const [password, setPassword] = useState('');
   const [rol, setRol] = useState('DETECTIVE');
   const [cod, setCod] = useState(0);
@@ -16,13 +17,13 @@ export default function Oficiales() {
     return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
   };
 
-  const URL_API = "http://localhost:3000/api/oficiales"; // O /api/usuarios según tu backend
+  const URL_API = "http://localhost:3000/api/usuarios";
 
   const getOficiales = () => Axios.get(URL_API, getAuthConfig()).then((res) => setOficiales(res.data));
   useEffect(() => { getOficiales(); }, []);
 
   const crearOficial = () => {
-    Axios.post(URL_API, { dni, nombre, password, rol }, getAuthConfig()).then(() => {
+    Axios.post(URL_API, { dni, nombre, apellido , password, rol }, getAuthConfig()).then(() => {
       getOficiales();
       cancelarEdit();
     });
@@ -33,7 +34,7 @@ export default function Oficiales() {
   };
 
   const actOficial = () => {
-    const datos = { dni, nombre, rol };
+    const datos = { nombre, apellido, password , rol };
     if (password.trim() !== "") datos.password = password; // Solo envía contraseña si escribió una nueva
 
     Axios.put(`${URL_API}/${cod}`, datos, getAuthConfig()).then(() => {
@@ -45,6 +46,7 @@ export default function Oficiales() {
   const cancelarEdit = () => {
     setDni("");
     setNombre("");
+    setApellido("");
     setPassword("");
     setRol("DETECTIVE");
     setEditar(false);
@@ -54,9 +56,10 @@ export default function Oficiales() {
     setEditar(true);
     setDni(val.dni);
     setNombre(val.nombre);
+    setApellido(val.apellido);
     setRol(val.rol);
     setPassword(""); // Dejamos en blanco por seguridad al editar
-    setCod(val.codOficial || val.id || val.dni);
+    setCod(val.dni);
   };
 
   return (
@@ -75,6 +78,12 @@ export default function Oficiales() {
               <div className="input-group">
                 <span className="input-group-text bg-dark text-info border-info">Nombre</span>
                 <input onChange={(e) => setNombre(e.target.value)} value={nombre} type="text" className="form-control bg-dark text-light border-info" placeholder="Nombre completo" />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="input-group">
+                <span className="input-group-text bg-dark text-info border-info">Apellido</span>
+                <input onChange={(e) => setApellido(e.target.value)} value={apellido} type="text" className="form-control bg-dark text-light border-info" placeholder="Apellido" />
               </div>
             </div>
             <div className="col-md-6">
@@ -109,21 +118,21 @@ export default function Oficiales() {
         <table className="table table-dark table-hover table-bordered border-info text-center align-middle">
           <thead className="table-active">
             <tr>
-              <th>ID / Legajo</th>
               <th>DNI</th>
               <th>Nombre</th>
+              <th>Apellido</th>
               <th>Rol Asignado</th>
               <th>Acción</th>
             </tr>
           </thead>
           <tbody>
             {listaOficiales.map((val) => {
-              const idActual = val.codOficial || val.id || val.dni;
+              const idActual = val.dni;
               return (
                 <tr key={idActual}>
                   <th>{idActual}</th>
-                  <td>{val.dni}</td>
                   <td>{val.nombre}</td>
+                  <td>{val.apellido}</td>
                   <td><span className="badge bg-info text-dark">{val.rol}</span></td>
                   <td>
                     <div className="btn-group">

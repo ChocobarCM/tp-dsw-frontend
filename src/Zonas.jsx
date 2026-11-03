@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import Axios from "axios";
 
-export default function Zonas() {
+export default function Zonas({ usuario }){
   const [nombre, setNombre] = useState('');
   const [cod, setCod] = useState(0);
   const [editar, setEditar] = useState(false);
   const [listaZonas, setZonas] = useState([]);
 
+  const authConfig = { headers: { "x-rol": usuario.rol }};
+
   const getZonas = () => Axios.get("http://localhost:3000/api/zonas").then((res) => setZonas(res.data));
   useEffect(() => { getZonas(); }, []);
 
-  const crearZona = () => Axios.post("http://localhost:3000/api/zonas", { nombre }).then(() => { getZonas(); cancelarEdit(); });
-  const eliminarZona = (cod) => Axios.delete(`http://localhost:3000/api/zonas/${cod}`).then(() => getZonas());
-  const actZona = () => Axios.put(`http://localhost:3000/api/zonas/${cod}`, { nombre }).then(() => { getZonas(); cancelarEdit(); });
+  const crearZona = () => Axios.post("http://localhost:3000/api/zonas", { nombre }, authConfig).then(() => { getZonas(); cancelarEdit(); });
+  const eliminarZona = (cod) => Axios.delete(`http://localhost:3000/api/zonas/${cod}`, authConfig).then(() => getZonas());
+  const actZona = () => Axios.put(`http://localhost:3000/api/zonas/${cod}`, { nombre }, authConfig).then(() => { getZonas(); cancelarEdit(); });
   
   const cancelarEdit = () => { setNombre(""); setEditar(false); };
   const editarZona = (val) => { setEditar(true); setNombre(val.nombre); setCod(val.codZona); };
