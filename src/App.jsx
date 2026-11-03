@@ -1,7 +1,15 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from "react";
+<<<<<<< Updated upstream
 import Axios from "axios";
+=======
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+import Login from './login';
+import Zonas from './Zonas';
+import Oficiales from './Oficiales';
+import TipoDelitos from './TipoDelitos.jsx' ; 
+>>>>>>> Stashed changes
 
 function App() {
 
