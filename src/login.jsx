@@ -36,46 +36,53 @@ const Login = ({ setUsuario }) => {
     }
 
     return(
-        <div className="card text-center m-5">
-            <div className="card-header">
-                Login - Intranet Forense
-            </div>
-            <div className="card-body">
-                <label htmlFor="inputDni" className="form-label mb-2">DNI</label>
-                <input 
-                    onChange={(event) => {
-                        setDni(event.target.value);
-                        setErrorMsg(""); // Limpiamos el error en cuanto el usuario vuelve a escribir
-                    }} 
-                    type="text" 
-                    className="form-control" 
-                    id="inputDni" 
-                />
-                
-                <label htmlFor="inputPassword5" className="form-label mt-3">Contraseña</label>
-                <input 
-                    onChange={(event) => {
-                        setContra(event.target.value);
-                        setErrorMsg(""); // Limpiamos el error en cuanto el usuario vuelve a escribir
-                    }} 
-                    type="password" 
-                    id="inputPassword5" 
-                    className="form-control" 
-                />
+        <main className="login-screen">
+            <section className="login-card" aria-labelledby="login-title">
+                <div className="login-card-header">
+                    <span className="login-kicker">SGIC-RO</span>
+                    <h1 id="login-title">Intranet Forense</h1>
+                    <p>Ingresá tus credenciales para continuar</p>
+                </div>
 
-                {/* 4. Mostramos el mensaje en rojo solo si errorMsg no está vacío */}
-                {errorMsg && (
-                    <div className="text-danger fw-bold mt-3">
-                        {errorMsg}
-                    </div>
-                )}
-            </div>
-            <div className="card-footer">
-                <button type="button" className="btn btn-primary" onClick={handdleLogin}>
-                    Iniciar Sesión
-                </button>
-            </div>
-        </div>
+                <form className="login-form" onSubmit={handdleLogin}>
+                    <label htmlFor="inputDni">DNI</label>
+                    <input
+                        onChange={(event) => {
+                            setDni(event.target.value);
+                            setErrorMsg("");
+                        }}
+                        value={dni}
+                        type="text"
+                        id="inputDni"
+                        autoComplete="username"
+                        required
+                    />
+
+                    <label htmlFor="inputPassword5">Contraseña</label>
+                    <input
+                        onChange={(event) => {
+                            setContra(event.target.value);
+                            setErrorMsg("");
+                        }}
+                        value={contra}
+                        type="password"
+                        id="inputPassword5"
+                        autoComplete="current-password"
+                        required
+                    />
+
+                    {errorMsg && (
+                        <div className="login-error" role="alert">
+                            {errorMsg}
+                        </div>
+                    )}
+
+                    <button type="submit" className="login-submit">
+                        Iniciar sesión
+                    </button>
+                </form>
+            </section>
+        </main>
     );
 }
 

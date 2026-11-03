@@ -56,3 +56,116 @@ body, html {
     background-size: 100% 4px; 
     overflow-y: auto;
 }
+
+.login-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+    background:
+        radial-gradient(ellipse at top, rgba(31, 83, 141, 0.3), transparent 55%),
+        #020813;
+    color: #a3c2c2;
+}
+
+.login-card {
+    width: min(100%, 430px);
+    overflow: hidden;
+    background: rgba(10, 25, 47, 0.92);
+    border: 1px solid #1f538d;
+    border-radius: 8px;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35), 0 0 24px rgba(79, 172, 254, 0.08);
+}
+
+.login-card-header {
+    padding: 30px 32px 24px;
+    border-bottom: 1px solid rgba(31, 83, 141, 0.75);
+    text-align: center;
+}
+
+.login-kicker {
+    color: #4facfe;
+    font-size: 0.85rem;
+    font-weight: bold;
+    letter-spacing: 0.2em;
+}
+
+.login-card-header h1 {
+    margin: 12px 0 8px;
+    color: #4facfe;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    font-weight: bold;
+    letter-spacing: 0;
+}
+
+.login-card-header p {
+    color: #7393b3;
+    font-size: 0.9rem;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 28px 32px 32px;
+}
+
+.login-form label {
+    margin-top: 8px;
+    color: #a3c2c2;
+    font-size: 0.9rem;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #1f538d;
+    border-radius: 4px;
+    outline: none;
+    background: #020813;
+    color: #e2f1f1;
+    font: inherit;
+}
+
+.login-form input:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.15);
+}
+
+.login-submit {
+    margin-top: 18px;
+    padding: 11px 16px;
+    border: 1px solid #4facfe;
+    border-radius: 4px;
+    background: #1f538d;
+    color: #fff;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.login-submit:hover {
+    background: #2869ad;
+    box-shadow: 0 0 16px rgba(79, 172, 254, 0.2);
+}
+
+.login-error {
+    margin-top: 8px;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 112, 112, 0.5);
+    border-radius: 4px;
+    background: rgba(120, 25, 35, 0.25);
+    color: #ff9a9a;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+    .login-card-header,
+    .login-form {
+        padding-right: 22px;
+        padding-left: 22px;
+    }
+}
