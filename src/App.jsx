@@ -8,6 +8,7 @@ import Oficiales from './Oficiales';
 import TipoDelitos from './TipoDelitos.jsx' ; 
 import Casos from './Casos.jsx';
 import RevisionCasos from './RevisionCasos.jsx';
+import Evidencias from './Evidencias.jsx';
 
 function App() {
   const [usuario, setUsuario] = useState(() => {
@@ -53,7 +54,7 @@ function App() {
               <Link to="/casos" className="btn-menu text-decoration-none">Gestión de Casos</Link>
             )}
             {usuario.rol === 'FISCAL' && (
-              <Link to="/bandeja-ordenes" className="btn-menu text-decoration-none">Bandeja de Órdenes</Link>
+              <Link to="/evidencias" className="btn-menu text-decoration-none">Carga de evidencias</Link> 
             )}
           </nav>
         </aside>
@@ -66,6 +67,9 @@ function App() {
             <Route path="/oficiales" element={usuario.rol === 'ADMIN' ? <Oficiales /> : <Navigate to="/" />} />
             <Route path="/casos" element={usuario.rol === 'DETECTIVE' ? <Casos usuario={usuario}/>: <Navigate to="/" />}/>
             <Route path="/revision-casos" element={usuario.rol === 'ADMIN' ? <RevisionCasos usuario={usuario}/> : <Navigate to="/" />} />
+            <Route path="/evidencias" element={usuario.rol === 'FISCAL'? <Evidencias usuario={usuario} /> : <Navigate to="/" />
+  }
+/>
           </Routes>
         </main>
       </div>
