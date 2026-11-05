@@ -3,10 +3,13 @@ import Axios from "axios";
 
 const URL_CASOS = "http://localhost:3000/api/casos";
 const URL_TIPOS = "http://localhost:3000/api/tipoDelitos";
+const URL_ZONAS = "http://localhost:3000/api/zonas";
 
 export default function Casos({ usuario }) {
   const [casos, setCasos] = useState([]);
   const [tipos, setTipos] = useState([]);
+  const [zonas, setZonas] = useState([]);
+  const [zonaCodZona, setZonaCodZona] = useState("");
   const [idEditando, setIdEditando] = useState(null);
 
   const [descripcion, setDescripcion] = useState("");
@@ -27,6 +30,11 @@ export default function Casos({ usuario }) {
     setCasos(respuesta.data);
   };
 
+  const cargarZonas = async () => {
+  const respuesta = await Axios.get(URL_ZONAS);
+  setZonas(respuesta.data);
+};
+
   const cargarTipos = async () => {
     const respuesta = await Axios.get(URL_TIPOS);
     setTipos(respuesta.data);
@@ -35,7 +43,7 @@ export default function Casos({ usuario }) {
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        await Promise.all([cargarCasos(), cargarTipos()]);
+        await Promise.all([cargarCasos(), cargarTipos(), cargarZonas()]);
       } catch (error) {
         setErrorMsg(
           error.response?.data?.mensaje || "No se pudieron cargar los casos o tipos de delito."
@@ -53,6 +61,7 @@ export default function Casos({ usuario }) {
     setDireccion("");
     setFechaInicio("");
     setTipoDelitoId("");
+    setZonaCodZona("");
   };
 
   const guardarCaso = async (event) => {
@@ -65,7 +74,8 @@ export default function Casos({ usuario }) {
       //estado, COMENTADO PARA QUE EL ESTADO NO SEA EDITABLE POR EL USUARIO, SINO QUE SE MANEJE DESDE EL BACKEND
       direccion,
       fechaInicio: fechaInicio || null,
-      tipoDelitoId: Number(tipoDelitoId)
+      tipoDelitoId: Number(tipoDelitoId),
+      zonaCodZona: Number(zonaCodZona)
     };
 
     try {
@@ -95,6 +105,7 @@ export default function Casos({ usuario }) {
     setDireccion(caso.direccion || "");
     setFechaInicio(caso.fechaInicio || "");
     setTipoDelitoId(String(caso.tipoDelitoId || ""));
+    setZonaCodZona(String(caso.zonaCodZona || ""));
     setErrorMsg("");
     setMensaje("");
   };
@@ -148,6 +159,23 @@ export default function Casos({ usuario }) {
               value={direccion}
               onChange={(event) => setDireccion(event.target.value)}
             />
+
+            <label className="text-start" htmlFor="zonaCaso">Zona</label>
+            <select
+            id="zonaCaso"
+            className="form-select bg-dark text-light border-info"
+            value={zonaCodZona}
+            onChange={(event) => setZonaCodZona(event.target.value)}
+            required
+            >
+  
+            <option value="">Elegí una zona</option>
+            {zonas.map((zona) => (
+            <option key={zona.codZona} value={zona.codZona}>
+            {zona.nombre}
+            </option>
+            ))}
+            </select>
 
             <label className="text-start" htmlFor="fechaInicio">
               Fecha de inicio
