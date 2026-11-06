@@ -75,7 +75,10 @@ export default function Casos({ usuario }) {
       direccion,
       fechaInicio: fechaInicio || null,
       tipoDelitoId: Number(tipoDelitoId),
-      zonaCodZona: Number(zonaCodZona)
+      zonaCodZona: Number(zonaCodZona),
+      dniDetective: usuario?.dni,
+      codDetective: usuario?.dni,
+      usuarioDni: usuario?.dni
     };
 
     try {

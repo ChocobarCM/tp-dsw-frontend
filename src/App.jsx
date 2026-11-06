@@ -9,6 +9,7 @@ import TipoDelitos from './TipoDelitos.jsx' ;
 import Casos from './Casos.jsx';
 import RevisionCasos from './RevisionCasos.jsx';
 import Evidencias from './Evidencias.jsx';
+import ListadoDetectives from './ListadoDetectives.jsx';
 
 function App() {
   const [usuario, setUsuario] = useState(() => {
@@ -47,30 +48,45 @@ function App() {
                 <Link to="/delitos" className="btn-menu text-decoration-none">Tipos de Delito</Link>
                 <Link to="/oficiales" className="btn-menu text-decoration-none">Oficiales</Link>
                 <Link to="/revision-casos" className="btn-menu text-decoration-none">Revisar casos</Link>
-                
+                <Link to="/listado-oficiales" className="btn-menu text-decoration-none">Listado de Detectives</Link>
               </>
             )}
             {usuario.rol === 'DETECTIVE' && (
               <Link to="/casos" className="btn-menu text-decoration-none">Gestión de Casos</Link>
             )}
-            {usuario.rol === 'FISCAL' && (
+            {usuario.rol === 'JUEZ_FISCAL' && (
               <Link to="/evidencias" className="btn-menu text-decoration-none">Carga de evidencias</Link> 
+            )}
+            {usuario.rol === 'FORENSE' && (
+              <span className="btn-menu text-decoration-none text-warning">Laboratorio Forense</span>
             )}
           </nav>
         </aside>
 
         <main className="contenido">
-          <Routes>
-            {/* Rutas protegidas por rol */}
-            <Route path="/zonas" element={usuario.rol === 'ADMIN' ? <Zonas usuario={usuario}/> : <Navigate to="/" />} />
-            <Route path="/delitos" element={usuario.rol === 'ADMIN' ? <TipoDelitos /> : <Navigate to="/" />} />
-            <Route path="/oficiales" element={usuario.rol === 'ADMIN' ? <Oficiales /> : <Navigate to="/" />} />
-            <Route path="/casos" element={usuario.rol === 'DETECTIVE' ? <Casos usuario={usuario}/>: <Navigate to="/" />}/>
-            <Route path="/revision-casos" element={usuario.rol === 'ADMIN' ? <RevisionCasos usuario={usuario}/> : <Navigate to="/" />} />
-            <Route path="/evidencias" element={usuario.rol === 'FISCAL'? <Evidencias usuario={usuario} /> : <Navigate to="/" />
-  }
-/>
-          </Routes>
+          {usuario.rol === 'FORENSE' ? (
+            <section className="d-flex flex-column align-items-center justify-content-center" style={{ height: '70vh' }}>
+              <h2 className="text-info mb-4">Módulo de Análisis Forense</h2>
+              <div className="card bg-dark border-warning text-center p-5" style={{ maxWidth: '500px' }}>
+                <h1 className="display-1 text-warning mb-3">🚧</h1>
+                <h4 className="text-light">Pantalla en Construcción</h4>
+                <p className="text-muted mt-2">
+                  El módulo de carga de reportes forenses y análisis de pruebas materiales se encuentra actualmente en desarrollo.
+                </p>
+              </div>
+            </section>
+          ) : (
+            <Routes>
+              {/* Rutas protegidas por rol */}
+              <Route path="/zonas" element={usuario.rol === 'ADMIN' ? <Zonas usuario={usuario}/> : <Navigate to="/" />} />
+              <Route path="/delitos" element={usuario.rol === 'ADMIN' ? <TipoDelitos /> : <Navigate to="/" />} />
+              <Route path="/oficiales" element={usuario.rol === 'ADMIN' ? <Oficiales /> : <Navigate to="/" />} />
+              <Route path="/casos" element={usuario.rol === 'DETECTIVE' ? <Casos usuario={usuario}/>: <Navigate to="/" />}/>
+              <Route path="/revision-casos" element={usuario.rol === 'ADMIN' ? <RevisionCasos usuario={usuario}/> : <Navigate to="/" />} />
+              <Route path="/evidencias" element={usuario.rol === 'FISCAL' ? <Evidencias usuario={usuario} /> : <Navigate to="/" />} />
+              <Route path="/listado-oficiales" element={usuario.rol === 'ADMIN' ? <ListadoDetectives usuario={usuario} /> : <Navigate to="/" />} />      
+            </Routes>
+          )}
         </main>
       </div>
     </BrowserRouter>
@@ -78,3 +94,4 @@ function App() {
 }
 
 export default App;
+
