@@ -10,6 +10,9 @@ import Casos from './Casos.jsx';
 import RevisionCasos from './RevisionCasos.jsx';
 import Evidencias from './Evidencias.jsx';
 import ListadoDetectives from './ListadoDetectives.jsx';
+import SolicitarAllanamiento from './SolicitarAllanamiento.jsx';
+import RevisionAllanamientos from './RevisionAllanamientos.jsx';
+import SolicitarCierreCaso from './SolicitarCierreCaso.jsx';
 
 function App() {
   const [usuario, setUsuario] = useState(() => {
@@ -52,11 +55,18 @@ function App() {
               </>
             )}
             {usuario.rol === 'DETECTIVE' && (
+              <>
               <Link to="/casos" className="btn-menu text-decoration-none">Gestión de Casos</Link>
+              <Link to="/evidencias" className="btn-menu text-decoration-none">Carga de evidencias</Link>
+              <Link to="/solicitar-allanamiento" className="btn-menu text-decoration-none">Solicitar Allanamiento</Link>
+              <Link to="/solicitar-cierre-caso" className="btn-menu text-decoration-none">Solicitar Cierre de Caso</Link>
+              </>
             )}
-            {usuario.rol === 'JUEZ_FISCAL' && (
-              <Link to="/evidencias" className="btn-menu text-decoration-none">Carga de evidencias</Link> 
+            
+            {usuario.rol === 'FISCAL' && (
+              <Link to="/revision-allanamientos" className="btn-menu text-decoration-none">Revisar Allanamientos</Link>
             )}
+
             {usuario.rol === 'FORENSE' && (
               <span className="btn-menu text-decoration-none text-warning">Laboratorio Forense</span>
             )}
@@ -83,8 +93,11 @@ function App() {
               <Route path="/oficiales" element={usuario.rol === 'ADMIN' ? <Oficiales /> : <Navigate to="/" />} />
               <Route path="/casos" element={usuario.rol === 'DETECTIVE' ? <Casos usuario={usuario}/>: <Navigate to="/" />}/>
               <Route path="/revision-casos" element={usuario.rol === 'ADMIN' ? <RevisionCasos usuario={usuario}/> : <Navigate to="/" />} />
-              <Route path="/evidencias" element={usuario.rol === 'FISCAL' ? <Evidencias usuario={usuario} /> : <Navigate to="/" />} />
-              <Route path="/listado-oficiales" element={usuario.rol === 'ADMIN' ? <ListadoDetectives usuario={usuario} /> : <Navigate to="/" />} />      
+              <Route path="/evidencias" element={usuario.rol === 'DETECTIVE' ? <Evidencias usuario={usuario} /> : <Navigate to="/" />} />
+              <Route path="/listado-oficiales" element={usuario.rol === 'ADMIN' ? <ListadoDetectives usuario={usuario} /> : <Navigate to="/" />} />  
+              <Route path="/solicitar-allanamiento" element={usuario.rol === 'DETECTIVE'? <SolicitarAllanamiento usuario={usuario} />: <Navigate to="/" />}/>
+              <Route path="/revision-allanamientos" element={usuario.rol === 'FISCAL'? <RevisionAllanamientos usuario={usuario} />: <Navigate to="/" />}/> 
+              <Route path="/solicitar-cierre-caso" element={usuario.rol === 'DETECTIVE'? <SolicitarCierreCaso usuario={usuario} />: <Navigate to="/" />}/>   
             </Routes>
           )}
         </main>
@@ -94,4 +107,3 @@ function App() {
 }
 
 export default App;
-

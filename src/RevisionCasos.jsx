@@ -98,6 +98,7 @@ const cargarListado = async (filtro = zonaFiltro) => {
               <th>Dirección</th>
               <th>Fecha de inicio</th>
               <th>Tipo de delito</th>
+              <th>Tipo de solicitud</th>
               <th>Decisión</th>
             </tr>
           </thead>
@@ -110,6 +111,7 @@ const cargarListado = async (filtro = zonaFiltro) => {
                 <td>{caso.direccion || "-"}</td>
                 <td>{caso.fechaInicio || "-"}</td>
                 <td>{caso.tipoDelito?.descripcion || "-"}</td>
+                <td>{caso.estado === "CIERRE_PENDIENTE" ? "Cerrar caso" : "Nuevo caso"}</td>
                 <td>
                   <div className="btn-group">
                     <button
@@ -136,7 +138,7 @@ const cargarListado = async (filtro = zonaFiltro) => {
 
             {casosPendientes.length === 0 && (
               <tr>
-                <td colSpan="6">No hay casos pendientes.</td>
+                <td colSpan="7">No hay casos pendientes.</td>
               </tr>
             )}
           </tbody>

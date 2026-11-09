@@ -22,7 +22,7 @@ export default function Casos({ usuario }) {
   const [mensaje, setMensaje] = useState("");
 
   const authConfig = {
-    headers: { "x-rol": usuario.rol }
+    headers: { "x-rol": usuario.rol, "x-dni": usuario.dni }
   };
 
   const cargarCasos = async () => {
