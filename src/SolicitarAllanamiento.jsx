@@ -12,8 +12,8 @@ export default function SolicitarAllanamiento({ usuario }) {
   const [mensaje, setMensaje] = useState("");
   const [allanamientos, setAllanamientos] = useState([]);
 
-  const authConfig = {
-    headers: { "x-rol": usuario.rol }
+const authConfig = {
+    headers: { "x-rol": usuario.rol, "x-dni": usuario.dni }
   };
 
 
