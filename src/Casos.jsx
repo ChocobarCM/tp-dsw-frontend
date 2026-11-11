@@ -30,10 +30,16 @@ export default function Casos({ usuario }) {
     setCasos(respuesta.data);
   };
 
+  const cargarListaCA = async () => {
+    const respuesta = await Axios.get(`${URL_CASOS}/verificarActivo`, authConfig);
+    const cant = respuesta.data.length;
+    return cant > 0;
+  };
+
   const cargarZonas = async () => {
-  const respuesta = await Axios.get(URL_ZONAS);
-  setZonas(respuesta.data);
-};
+    const respuesta = await Axios.get(URL_ZONAS);
+    setZonas(respuesta.data);
+  };
 
   const cargarTipos = async () => {
     const respuesta = await Axios.get(URL_TIPOS);
@@ -85,13 +91,19 @@ export default function Casos({ usuario }) {
       if (idEditando !== null) {
         await Axios.put(`${URL_CASOS}/${idEditando}`, datos, authConfig);
         setMensaje("Caso actualizado.");
+        await cargarCasos();
+        limpiarFormulario();
       } else {
-        await Axios.post(URL_CASOS, datos, authConfig);
-        setMensaje("Caso creado.");
+        const tieneCasoActivo = await cargarListaCA();
+        if (tieneCasoActivo) {
+          setErrorMsg("No puede cargar caso, ya tienes uno activo o pendiente.");
+        } else {
+          await Axios.post(URL_CASOS, datos, authConfig);
+          setMensaje("Caso creado.");
+          await cargarCasos();
+          limpiarFormulario();
+        }
       }
-
-      await cargarCasos();
-      limpiarFormulario();
     } catch (error) {
       setErrorMsg(
         error.response?.data?.mensaje ||
@@ -165,19 +177,18 @@ export default function Casos({ usuario }) {
 
             <label className="text-start" htmlFor="zonaCaso">Zona</label>
             <select
-            id="zonaCaso"
-            className="form-select bg-dark text-light border-info"
-            value={zonaCodZona}
-            onChange={(event) => setZonaCodZona(event.target.value)}
-            required
+              id="zonaCaso"
+              className="form-select bg-dark text-light border-info"
+              value={zonaCodZona}
+              onChange={(event) => setZonaCodZona(event.target.value)}
+              required
             >
-  
-            <option value="">Elegí una zona</option>
-            {zonas.map((zona) => (
-            <option key={zona.codZona} value={zona.codZona}>
-            {zona.nombre}
-            </option>
-            ))}
+              <option value="">Elegí una zona</option>
+              {zonas.map((zona) => (
+                <option key={zona.codZona} value={zona.codZona}>
+                  {zona.nombre}
+                </option>
+              ))}
             </select>
 
             <label className="text-start" htmlFor="fechaInicio">
